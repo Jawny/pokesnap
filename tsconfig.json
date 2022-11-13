@@ -1,6 +1,11 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      // expo doesn't allow @ to be used for some reason
+      "pages": ["./pages"]
+    }
   }
 }
