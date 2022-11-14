@@ -1,6 +1,7 @@
 import React from "react";
 import { View, KeyboardAvoidingView } from "react-native";
 import { TextInput } from "react-native-paper";
+import { styles } from "./LoginPageStyles";
 
 export const LoginPage = () => {
   const [email, setEmail] = React.useState("");
@@ -8,14 +9,15 @@ export const LoginPage = () => {
 
   return (
     <KeyboardAvoidingView>
-      <View>
+      <View style={styles.container}>
         <TextInput
+          style={styles.TextInput}
           label="Email"
           value={email}
           onChange={(email: any) => setEmail(email)}
         />
         <TextInput
-          outlined
+          style={styles.TextInput}
           label="Password"
           value={password}
           onChange={(password: any) => setPassword(password)}
