@@ -1,23 +1,38 @@
+import React from "react";
+import { Provider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Provider as PaperProvider } from "react-native-paper";
-import { HomePage, LoginPage } from "pages";
+import { createStackNavigator } from "@react-navigation/stack";
+import { theme } from "core";
+import {
+  StartScreen,
+  LoginScreen,
+  RegisterScreen,
+  ResetPasswordScreen,
+  Dashboard,
+} from "screens";
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
-
   return (
-    <PaperProvider>
+    <Provider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          initialRouteName="StartScreen"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="StartScreen" component={StartScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen
-            options={{ headerShown: false }}
-            name="Login"
-            component={LoginPage}
+            name="ResetPasswordScreen"
+            component={ResetPasswordScreen}
           />
-          <Stack.Screen name="Home" component={LoginPage} />
         </Stack.Navigator>
       </NavigationContainer>
-    </PaperProvider>
+    </Provider>
   );
 }
