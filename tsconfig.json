@@ -10,7 +10,7 @@
       "components": ["./components"],
       "helpers": ["./helpers"],
       "assets": ["./assets"]
-    }
-  },
-  "typeRoots": ["./src/types"]
+    },
+    "typeRoots": ["./src/types"]
+  }
 }
