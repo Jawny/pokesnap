@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {
   BackButton,
   Background,
@@ -11,11 +12,24 @@ import {
 } from "components";
 import { theme } from "core";
 import { emailValidator, nameValidator, passwordValidator } from "helpers";
+import { auth } from "../../firebaseConfig";
 
 export default function RegisterScreen({ navigation }: any) {
   const [name, setName] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+
+  const registerUser = () => {
+    createUserWithEmailAndPassword(auth, email.value, password.value)
+      .then((userCredential) => {
+        // Signed in
+        console.log(userCredential);
+      })
+      .catch((error) => {
+        console.log(error);
+        // add pop up modal to show error
+      });
+  };
 
   const onSignUpPressed = () => {
     const nameError = nameValidator(name.value);
@@ -27,6 +41,7 @@ export default function RegisterScreen({ navigation }: any) {
       setPassword({ ...password, error: passwordError });
       return;
     }
+    registerUser();
     navigation.reset({
       index: 0,
       routes: [{ name: "Dashboard" }],

@@ -11,5 +11,6 @@
       "helpers": ["./helpers"],
       "assets": ["./assets"]
     }
-  }
+  },
+  "typeRoots": ["./src/types"]
 }

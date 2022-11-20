@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import {
   BackButton,
   Button,
@@ -11,10 +12,21 @@ import {
 } from "components";
 import { theme } from "core";
 import { emailValidator, passwordValidator } from "helpers";
+import { auth } from "../../firebaseConfig";
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+
+  const loginUser = () => {
+    signInWithEmailAndPassword(auth, email.value, password.value)
+      .then((userCredential) => {
+        console.log(userCredential);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const onLoginPressed = () => {
     const emailError = emailValidator(email.value);
