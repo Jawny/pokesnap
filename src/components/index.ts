@@ -5,3 +5,4 @@ export { default as Header } from "./Header";
 export { default as Logo } from "./Logo";
 export { default as Paragraph } from "./Paragraph";
 export { default as TextInput } from "./TextInput";
+export { default as SnackBar } from "./SnackBar";

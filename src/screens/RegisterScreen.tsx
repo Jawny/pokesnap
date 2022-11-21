@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
   BackButton,
   Background,
@@ -9,6 +9,7 @@ import {
   TextInput,
   Header,
   Logo,
+  SnackBar,
 } from "components";
 import { theme } from "core";
 import { emailValidator, nameValidator, passwordValidator } from "helpers";
@@ -24,6 +25,10 @@ export default function RegisterScreen({ navigation }: any) {
       .then((userCredential) => {
         // Signed in
         console.log(userCredential);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Dashboard" }],
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -41,11 +46,8 @@ export default function RegisterScreen({ navigation }: any) {
       setPassword({ ...password, error: passwordError });
       return;
     }
+
     registerUser();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Dashboard" }],
-    });
   };
 
   return (
@@ -57,7 +59,7 @@ export default function RegisterScreen({ navigation }: any) {
         label="Name"
         returnKeyType="next"
         value={name.value}
-        onChangeText={(text) => setName({ value: text, error: "" })}
+        onChangeText={(text: string) => setName({ value: text, error: "" })}
         error={!!name.error}
         errorText={name.error}
       />

@@ -30,6 +30,8 @@ module.exports = function (api) {
             components: "./src/components",
             helpers: "./src/helpers",
             assets: "./src/assets",
+            contexts: "./src/core/contexts",
+            providers: "./src/core/providers",
           },
         },
       ],

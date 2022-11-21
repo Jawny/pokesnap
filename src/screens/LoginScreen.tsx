@@ -9,22 +9,28 @@ import {
   TextInput,
   Header,
   Logo,
+  SnackBar,
 } from "components";
 import { theme } from "core";
+import { SnackBarContext } from "contexts";
 import { emailValidator, passwordValidator } from "helpers";
 import { auth } from "../../firebaseConfig";
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+  const { visible, setVisible } = React.useContext(SnackBarContext);
 
   const loginUser = () => {
     signInWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
-        console.log(userCredential);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Dashboard" }],
+        });
       })
       .catch((error) => {
-        console.log(error);
+        setVisible(true);
       });
   };
 
@@ -36,15 +42,13 @@ export default function LoginScreen({ navigation }: any) {
       setPassword({ ...password, error: passwordError });
       return;
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Dashboard" }],
-    });
+    loginUser();
   };
 
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
+      {visible ? <SnackBar text="Error" /> : <></>}
       <Logo />
       <Header>Welcome back.</Header>
       <TextInput

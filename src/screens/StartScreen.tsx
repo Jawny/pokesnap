@@ -5,10 +5,8 @@ export default function StartScreen({ navigation }: any) {
   return (
     <Background>
       <Logo />
-      <Header>Login Template</Header>
-      <Paragraph>
-        The easiest way to start with your amazing application.
-      </Paragraph>
+      <Header>Pokedex</Header>
+      <Paragraph>Find and Document the Original 151 Pokemon!</Paragraph>
       <Button
         mode="contained"
         onPress={() => navigation.navigate("LoginScreen")}

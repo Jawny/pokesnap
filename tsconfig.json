@@ -9,7 +9,9 @@
       "core": ["./core"],
       "components": ["./components"],
       "helpers": ["./helpers"],
-      "assets": ["./assets"]
+      "assets": ["./assets"],
+      "contexts": ["./core/contexts"],
+      "providers": ["./core/providers"]
     },
     "typeRoots": ["./src/types"]
   }
