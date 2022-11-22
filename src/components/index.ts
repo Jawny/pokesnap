@@ -6,3 +6,4 @@ export { default as Logo } from "./Logo";
 export { default as Paragraph } from "./Paragraph";
 export { default as TextInput } from "./TextInput";
 export { default as SnackBar } from "./SnackBar";
+export { default as CameraButton } from "./Camera";

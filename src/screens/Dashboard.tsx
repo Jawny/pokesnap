@@ -1,10 +1,18 @@
 import React from "react";
-import { Background, Button, Paragraph, Header, Logo } from "components";
+import { SafeAreaView, Text } from "react-native";
+import {
+  Background,
+  Button,
+  Paragraph,
+  Header,
+  Logo,
+  CameraButton,
+} from "components";
 
 export default function Dashboard({ navigation }: any) {
   return (
-    <Background>
-      <Logo />
+    <SafeAreaView>
+      {/* <Logo />
       <Header>Let’s start</Header>
       <Paragraph>
         Your amazing app starts here. Open you favorite code editor and start
@@ -20,7 +28,9 @@ export default function Dashboard({ navigation }: any) {
         }
       >
         Logout
-      </Button>
-    </Background>
+      </Button> */}
+      <Text>hihihi</Text>
+      <CameraButton />
+    </SafeAreaView>
   );
 }
