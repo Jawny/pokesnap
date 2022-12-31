@@ -1,18 +1,26 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "baseUrl": "./src",
-    "paths": {
-      // expo doesn't allow @ to be used for some reason
-      "screens": ["./screens"],
-      "core": ["./core"],
-      "components": ["./components"],
-      "helpers": ["./helpers"],
-      "assets": ["./assets"],
-      "contexts": ["./core/contexts"],
-      "providers": ["./core/providers"]
-    },
-    "typeRoots": ["./src/types"]
-  }
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ]
 }
