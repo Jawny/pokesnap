@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   IonContent,
   IonHeader,
@@ -10,24 +10,14 @@ import {
   IonCol,
   IonImg,
   IonButton,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { usePhotoGallery } from "./usePhotoGallery";
 import { PhotoView } from "./index";
 import "./Camera.css";
 
-const Camera: React.FC = () => {
-  const { takePhoto } = usePhotoGallery();
-  const [cameraOnStatus, setCameraOnStatus] = useState(false);
-
-  const CameraView = () => {
-    useEffect(() => {
-      takePhoto();
-      setCameraOnStatus(false);
-    }, []);
-    return <></>;
-  };
-
-  return <>{cameraOnStatus ? <CameraView /> : <PhotoView />}</>;
+const CameraView = () => {
+  return <PhotoView />;
 };
 
-export default Camera;
+export default CameraView;

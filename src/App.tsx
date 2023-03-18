@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, Router } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import {
   IonApp,
   IonIcon,
@@ -10,7 +11,6 @@ import {
   IonTabs,
   setupIonicReact,
 } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
 import { book, camera, square } from "ionicons/icons";
 import { Pokedex, Camera, Tab3 } from "./pages";
 import { usePhotoGallery } from "./pages/Camera/usePhotoGallery";
@@ -35,11 +35,14 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 setupIonicReact();
+const history = createBrowserHistory() as any;
 
 const App: React.FC = () => {
+  const { takePhoto } = usePhotoGallery();
+
   return (
     <IonApp>
-      <IonReactRouter>
+      <Router history={history}>
         <IonTabs>
           <IonRouterOutlet>
             <Route exact path="/tab1">
@@ -60,7 +63,15 @@ const App: React.FC = () => {
               <IonIcon icon={book} />
               <IonLabel>Pokedex</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
+            <IonTabButton
+              onClick={() => {
+                takePhoto();
+                console.log(history);
+                history.push("/tab2");
+              }}
+              tab="tab2"
+              href="/tab2"
+            >
               <IonIcon icon={camera} />
               <IonLabel>Camera</IonLabel>
             </IonTabButton>
@@ -70,7 +81,7 @@ const App: React.FC = () => {
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
-      </IonReactRouter>
+      </Router>
     </IonApp>
   );
 };
