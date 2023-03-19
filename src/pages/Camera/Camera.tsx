@@ -1,9 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import { IonButton, IonImg } from "@ionic/react";
+import { handleInference } from "../../model";
 
 function CameraComponent() {
   const [photo, setPhoto] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [pokemonPrediction, setPokemonPrediction] = useState<string>("");
   const cameraLoaded = useRef(false);
+
+  const handlePrediction = async (photo: string) => {
+    setLoading(true);
+    const pokemonPrediction = await handleInference(photo);
+    setPokemonPrediction(pokemonPrediction);
+    setLoading(false);
+  };
 
   const takePhoto = async () =>
     await Camera.getPhoto({
@@ -28,9 +39,14 @@ function CameraComponent() {
     <div>
       {photo ? (
         <>
-          <img src={photo} alt="Captured Photo" />
-          <button>retake Photo</button>
-          <button>Analyze Pokemon</button>
+          <IonImg src={photo} alt="Captured Photo" />
+          <IonButton disabled={loading}>retake Photo</IonButton>
+          <IonButton disabled={loading} onClick={() => handlePrediction(photo)}>
+            Analyze Pokemon
+          </IonButton>
+          <>
+            {loading ? <p>Processing Photo...</p> : <p>{pokemonPrediction}</p>}
+          </>
         </>
       ) : (
         <p>Loading photo...</p>
