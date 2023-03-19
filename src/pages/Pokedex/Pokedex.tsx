@@ -4,6 +4,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonImg,
 } from "@ionic/react";
 import { ExploreContainer } from "../../components";
 import "./Pokedex.css";
@@ -13,7 +14,7 @@ const Pokedex: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 1</IonTitle>
+          <IonTitle>Pokedex</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
