@@ -13,7 +13,6 @@ import {
 } from "@ionic/react";
 import { book, camera, square } from "ionicons/icons";
 import { Pokedex, Camera, Tab3 } from "./pages";
-import { usePhotoGallery } from "./pages/Camera/usePhotoGallery";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -38,8 +37,6 @@ setupIonicReact();
 const history = createBrowserHistory() as any;
 
 const App: React.FC = () => {
-  const { takePhoto } = usePhotoGallery();
-
   return (
     <IonApp>
       <Router history={history}>
@@ -64,11 +61,11 @@ const App: React.FC = () => {
               <IonLabel>Pokedex</IonLabel>
             </IonTabButton>
             <IonTabButton
-              onClick={() => {
-                takePhoto();
-                console.log(history);
-                history.push("/tab2");
-              }}
+              // onClick={() => {
+              //   takePhoto();
+              //   console.log(history);
+              //   history.push("/tab2");
+              // }}
               tab="tab2"
               href="/tab2"
             >
