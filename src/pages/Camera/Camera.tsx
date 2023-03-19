@@ -6,6 +6,7 @@ import { handleInference } from "../../model";
 function CameraComponent() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [photoRetake, setPhotoRetake] = useState<boolean>(false);
   const [pokemonPrediction, setPokemonPrediction] = useState<string>("");
   const cameraLoaded = useRef(false);
 
@@ -14,6 +15,11 @@ function CameraComponent() {
     const pokemonPrediction = await handleInference(photo);
     setPokemonPrediction(pokemonPrediction);
     setLoading(false);
+  };
+
+  const handlePhotoRetake = () => {
+    cameraLoaded.current = false;
+    setPhotoRetake(!photoRetake);
   };
 
   const takePhoto = async () =>
@@ -33,14 +39,16 @@ function CameraComponent() {
       }
     }
     getPhoto();
-  }, []);
+  }, [photoRetake]);
 
   return (
     <div>
       {photo ? (
         <>
           <IonImg src={photo} alt="Captured Photo" />
-          <IonButton disabled={loading}>retake Photo</IonButton>
+          <IonButton disabled={loading} onClick={handlePhotoRetake}>
+            retake Photo
+          </IonButton>
           <IonButton disabled={loading} onClick={() => handlePrediction(photo)}>
             Analyze Pokemon
           </IonButton>
