@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import { IonButton, IonImg } from "@ionic/react";
+import { IonButton, IonContent, IonImg, IonPage } from "@ionic/react";
 import { handleInference } from "../../model";
-import { getPokemonByName } from "../../utils/pokeApi";
+import { getPokemonArt, getPokemonByName } from "../../utils/pokeApi";
 
 function CameraComponent() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [photoRetake, setPhotoRetake] = useState<boolean>(false);
   const [pokemonPrediction, setPokemonPrediction] = useState<string>("");
+  const [pokemonImage, setPokemonImage] = useState<string>("");
   const cameraLoaded = useRef(false);
 
   const handlePrediction = async (photo: string) => {
@@ -16,6 +17,8 @@ function CameraComponent() {
     const pokemonPrediction = await handleInference(photo);
     setPokemonPrediction(pokemonPrediction);
     const res = await getPokemonByName(pokemonPrediction);
+    const pokeImage = await getPokemonArt(pokemonPrediction);
+    setPokemonImage(pokeImage ?? "");
     console.log("pokeapi: ", res);
     setLoading(false);
   };
@@ -45,24 +48,30 @@ function CameraComponent() {
   }, [photoRetake]);
 
   return (
-    <div>
+    <>
       {photo ? (
-        <>
-          <IonImg src={photo} alt="Captured Photo" />
-          <IonButton disabled={loading} onClick={handlePhotoRetake}>
-            retake Photo
-          </IonButton>
-          <IonButton disabled={loading} onClick={() => handlePrediction(photo)}>
-            Analyze Pokemon
-          </IonButton>
+        <IonPage>
+          <IonContent>
+            <IonImg src={photo} alt="Captured Photo" />
+            <IonImg src={pokemonImage} alt="pokemon img" />
+            <IonButton disabled={loading} onClick={handlePhotoRetake}>
+              retake Photo
+            </IonButton>
+            <IonButton
+              disabled={loading}
+              onClick={() => handlePrediction(photo)}
+            >
+              Analyze Pokemon
+            </IonButton>
+          </IonContent>
           <>
             {loading ? <p>Processing Photo...</p> : <p>{pokemonPrediction}</p>}
           </>
-        </>
+        </IonPage>
       ) : (
         <p>Loading...</p>
       )}
-    </div>
+    </>
   );
 }
 

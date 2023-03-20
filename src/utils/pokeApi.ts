@@ -16,5 +16,28 @@ const formatPokemonName = (pokemonName: string) => {
 };
 
 export const getPokemonByName = async (pokemonName: string) => {
-  return await P.getPokemonByName(formatPokemonName(pokemonName));
+  try {
+    return await P.getPokemonByName(formatPokemonName(pokemonName));
+  } catch (error) {
+    console.error(error);
+    return null; // TODO: add proper error handling in the future
+  }
+};
+
+export const getPokemonArt = async (pokemonName: string) => {
+  try {
+    const pokemon = await P.getPokemonByName(formatPokemonName(pokemonName));
+    const {
+      sprites: {
+        other: {
+          "official-artwork": { front_default: pokemonOfficialArt },
+        },
+      },
+    } = pokemon;
+
+    return pokemonOfficialArt;
+  } catch (error) {
+    console.error(error);
+    return null; // TODO: add proper error handling in the future
+  }
 };
