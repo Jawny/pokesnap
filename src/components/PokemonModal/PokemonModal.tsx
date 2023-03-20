@@ -6,6 +6,7 @@ import {
   IonTitle,
   IonContent,
   IonButton,
+  IonButtons,
 } from "@ionic/react";
 
 interface PokemonModalProps {
@@ -26,10 +27,12 @@ const PokemonModal = ({
       <IonHeader>
         <IonToolbar>
           <IonTitle>{title}</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={onClose}>Close</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>{content}</IonContent>
-      <IonButton onClick={onClose}>Close Modal</IonButton>
     </IonModal>
   );
 };

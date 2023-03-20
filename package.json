@@ -52,7 +52,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "mobile-dev": "ionic capacitor run android -l -c --external",
+    "mobile-dev-android": "ionic capacitor run android -l -c --external",
+    "mobile-dev-ios": "ionic capacitor run ios -l -c --external",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
     "eject": "react-scripts eject"
   },
