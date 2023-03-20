@@ -1,5 +1,5 @@
 declare module "pokeapi-js-wrapper" {
-  export default class Pokedex {
+  export class Pokedex {
     constructor(config?: PokedexConfig);
     getPokemonByName(name: string): Promise<Pokemon>;
     getPokemonByLimitOffset(

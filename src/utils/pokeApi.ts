@@ -1,4 +1,4 @@
-import Pokedex from "pokeapi-js-wrapper";
+import { Pokedex } from "pokeapi-js-wrapper";
 
 const customOptions = {
   protocol: "https",
@@ -10,3 +10,11 @@ const customOptions = {
 };
 
 const P = new Pokedex(customOptions);
+
+const formatPokemonName = (pokemonName: string) => {
+  return pokemonName.replace(/[^0-9a-z]/gi, "").toLowerCase();
+};
+
+export const getPokemonByName = async (pokemonName: string) => {
+  return await P.getPokemonByName(formatPokemonName(pokemonName));
+};
