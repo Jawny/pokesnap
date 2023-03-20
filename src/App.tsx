@@ -42,33 +42,25 @@ const App: React.FC = () => {
       <Router history={history}>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/tab1">
+            <Route exact path="/pokedex">
               <Pokedex />
             </Route>
-            <Route exact path="/tab2">
+            <Route exact path="/camera">
               <Camera />
             </Route>
             <Route path="/tab3">
               <Tab3 />
             </Route>
             <Route exact path="/">
-              <Redirect to="/tab1" />
+              <Redirect to="/pokedex" />
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/tab1">
+            <IonTabButton tab="pokedex" href="/pokedex">
               <IonIcon icon={book} />
               <IonLabel>Pokedex</IonLabel>
             </IonTabButton>
-            <IonTabButton
-              // onClick={() => {
-              //   takePhoto();
-              //   console.log(history);
-              //   history.push("/tab2");
-              // }}
-              tab="tab2"
-              href="/tab2"
-            >
+            <IonTabButton tab="camera" href="/camera">
               <IonIcon icon={camera} />
               <IonLabel>Camera</IonLabel>
             </IonTabButton>
