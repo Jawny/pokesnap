@@ -29,7 +29,7 @@ const PokemonModal = ({
         </IonToolbar>
       </IonHeader>
       <IonContent>{content}</IonContent>
-      <IonButton onClick={onClose}>Close Modal</IonButton>
+      <IonButton onClick={onClose}>Close</IonButton>
     </IonModal>
   );
 };
