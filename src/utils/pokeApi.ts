@@ -15,9 +15,9 @@ const formatPokemonName = (pokemonName: string) => {
   return pokemonName.replace(/[^0-9a-z]/gi, "").toLowerCase();
 };
 
-export const getAllPokemon = async () => {
+export const getAllPokemon = async (limit: number = 151) => {
   return await (
-    await P.getPokemonsList({ limit: 151 })
+    await P.getPokemonsList({ limit })
   ).results;
 };
 
