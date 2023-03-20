@@ -5,15 +5,11 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonImg,
   IonGrid,
   IonRow,
   IonCol,
-  IonLabel,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
 } from "@ionic/react";
+import { PokemonCard } from "../../components";
 import { capitalizeFirstLetter, getAllPokemon } from "../../utils/";
 import "./Pokedex.css";
 
@@ -51,31 +47,19 @@ const Pokedex: React.FC = () => {
       <IonContent>
         <IonGrid>
           {pokemonImages.map((pokemon, index) => {
-            const { name, imageUrl: src } = pokemon;
+            const { name, imageUrl } = pokemon;
 
             return index % 2 === 0 ? (
               <IonRow key={index}>
                 <IonCol size="6">
-                  <IonCard className="card-wrapper">
-                    <IonImg src={src} alt={`Image ${index}`} />
-                    <IonCardHeader>
-                      <IonCardTitle>{name}</IonCardTitle>
-                    </IonCardHeader>
-                  </IonCard>
+                  <PokemonCard name={name} imageUrl={imageUrl} />
                 </IonCol>
                 <IonCol size="6">
                   {index + 1 < pokemonImages.length && (
-                    <IonCard className="card-wrapper">
-                      <IonImg
-                        src={pokemonImages[index + 1].imageUrl}
-                        alt={`Image ${index + 1}`}
-                      />
-                      <IonCardHeader>
-                        <IonCardTitle>
-                          {pokemonImages[index + 1].name}
-                        </IonCardTitle>
-                      </IonCardHeader>
-                    </IonCard>
+                    <PokemonCard
+                      name={pokemonImages[index + 1].name}
+                      imageUrl={pokemonImages[index + 1].imageUrl}
+                    />
                   )}
                 </IonCol>
               </IonRow>
