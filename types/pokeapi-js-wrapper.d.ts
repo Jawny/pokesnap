@@ -2,10 +2,10 @@ declare module "pokeapi-js-wrapper" {
   export class Pokedex {
     constructor(config?: PokedexConfig);
     getPokemonByName(name: string): Promise<Pokemon>;
-    getPokemonByLimitOffset(
-      limit?: number,
-      offset?: number
-    ): Promise<PaginatedResult<Pokemon>>;
+    getPokemonsList(options?: {
+      limit?: number;
+      offset?: number;
+    }): Promise<PaginatedResult<Pokemon>>;
     getTypeByName(name: string): Promise<Type>;
     getTypeByLimitOffset(
       limit?: number,

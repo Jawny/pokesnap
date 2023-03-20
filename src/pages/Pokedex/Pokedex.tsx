@@ -6,10 +6,20 @@ import {
   IonToolbar,
   IonImg,
 } from "@ionic/react";
-import { ExploreContainer } from "../../components";
+import { useEffect } from "react";
+import { getAllPokemon } from "../../utils/pokeApi";
 import "./Pokedex.css";
 
 const Pokedex: React.FC = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getAllPokemon();
+      console.log(res);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <IonPage>
       <IonHeader>
