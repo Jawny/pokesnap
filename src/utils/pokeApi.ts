@@ -1,4 +1,5 @@
 import { Pokedex } from "pokeapi-js-wrapper";
+import { formatPokemonName } from "./utils";
 
 const customOptions = {
   protocol: "https",
@@ -10,10 +11,6 @@ const customOptions = {
 };
 
 const P = new Pokedex(customOptions);
-
-const formatPokemonName = (pokemonName: string) => {
-  return pokemonName.replace(/[^0-9a-z]/gi, "").toLowerCase();
-};
 
 export const getAllPokemon = async (limit: number = 151) => {
   return await (
@@ -47,3 +44,9 @@ export const getPokemonArt = async (pokemonName: string) => {
     return null; // TODO: add proper error handling in the future
   }
 };
+
+export const formatAllAbilities = () => {};
+
+export const formatAllStats = () => {};
+
+export const formatAllTypes = () => {};
