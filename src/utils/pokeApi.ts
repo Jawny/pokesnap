@@ -1,4 +1,9 @@
-import { Pokedex } from "pokeapi-js-wrapper";
+import {
+  Pokedex,
+  PokemonAbility,
+  PokemonStat,
+  PokemonType,
+} from "pokeapi-js-wrapper";
 import { formatPokemonName } from "./utils";
 
 const customOptions = {
@@ -45,8 +50,18 @@ export const getPokemonArt = async (pokemonName: string) => {
   }
 };
 
-export const formatAllAbilities = () => {};
+export const formatAllAbilities = (
+  abilities: PokemonAbility[]
+): PokemonAbility => {
+  const result = abilities.map((ability) => {
+    const {
+      ability: { name },
+    } = ability;
 
-export const formatAllStats = () => {};
+    return name;
+  });
+};
 
-export const formatAllTypes = () => {};
+export const formatAllStats = (stats: PokemonStat[]) => {};
+
+export const formatAllTypes = (types: PokemonType[]) => {};
