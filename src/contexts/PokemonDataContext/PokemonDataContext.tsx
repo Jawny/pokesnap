@@ -1,8 +1,12 @@
 import { createContext, useCallback, useState } from "react";
-
+import { FormatedStats } from "../../utils/pokeApi";
 interface Pokemon {
   name: string;
-  height: string;
+  height: number;
+  stats: FormatedStats[];
+  abilities: string[];
+  types: string[];
+  weight: number;
 }
 
 interface IPokemonData {
@@ -10,7 +14,7 @@ interface IPokemonData {
 }
 
 export const PokemonDataContext = createContext({
-  pokemonData: {},
+  pokemonData: {} as IPokemonData,
   updatePokemonData: (name: string, value: Pokemon) => {},
 });
 

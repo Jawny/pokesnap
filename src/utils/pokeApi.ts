@@ -50,18 +50,45 @@ export const getPokemonArt = async (pokemonName: string) => {
   }
 };
 
-export const formatAllAbilities = (
-  abilities: PokemonAbility[]
-): PokemonAbility => {
-  const result = abilities.map((ability) => {
+export const formatAllAbilities = (abilities: PokemonAbility[]): string[] => {
+  const result = abilities.map((ability: PokemonAbility) => {
     const {
       ability: { name },
     } = ability;
 
     return name;
   });
+
+  return result;
 };
 
-export const formatAllStats = (stats: PokemonStat[]) => {};
+export type FormatedStats = {
+  baseStat: number;
+  effort: number;
+  statName: string;
+};
 
-export const formatAllTypes = (types: PokemonType[]) => {};
+export const formatAllStats = (stats: PokemonStat[]): FormatedStats[] => {
+  const result = stats.map((stat: PokemonStat) => {
+    const {
+      base_stat: baseStat,
+      effort,
+      stat: { name: statName },
+    } = stat;
+
+    return { baseStat, effort, statName };
+  });
+
+  return result;
+};
+
+export const formatAllTypes = (types: PokemonType[]): string[] => {
+  const result = types.map((type: PokemonType) => {
+    const {
+      type: { name },
+    } = type;
+    return name;
+  });
+
+  return result;
+};

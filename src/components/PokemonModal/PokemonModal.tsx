@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import {
   IonModal,
   IonHeader,
@@ -9,8 +9,12 @@ import {
   IonButtons,
 } from "@ionic/react";
 import { PokemonDataContext, PokemonDataProvider } from "../../contexts";
-import { getPokemonByName } from "../../utils";
-import { Pokemon } from "pokeapi-js-wrapper";
+import {
+  getPokemonByName,
+  formatAllAbilities,
+  formatAllStats,
+  formatAllTypes,
+} from "../../utils";
 
 interface PokemonModalProps {
   isOpen: boolean;
@@ -23,24 +27,70 @@ interface PokemonModalProps {
 const PokemonModal = ({ isOpen, onClose, name }: PokemonModalProps) => {
   const { pokemonData, updatePokemonData } = useContext(PokemonDataContext);
 
-  useEffect(() => {
-    const handleAddPokemon = async () => {
-      const formattedPokemonName = name.toLowerCase();
+  // useEffect(() => {
+  //   const handleAddPokemon = async () => {
+  //     const formattedPokemonName = name.toLowerCase();
 
-      if (!pokemonData.hasOwnProperty(formattedPokemonName) && isOpen) {
-        const fetchedPokemonData = await getPokemonByName(formattedPokemonName);
+  //     if (!pokemonData.hasOwnProperty(formattedPokemonName) && isOpen) {
+  //       const fetchedPokemonData = await getPokemonByName(formattedPokemonName);
 
-        if (fetchedPokemonData != null) {
-          const { name, height, weight, types } = fetchedPokemonData;
-          console.log("pokemon data: ", fetchedPokemonData);
-          // const newPokemon = { name, height };
-          // updatePokemonData(newPokemon.name, newPokemon);
-        }
-      }
-    };
+  //       if (fetchedPokemonData != null) {
+  //         const { abilities, name, height, weight, stats, types } =
+  //           fetchedPokemonData;
+  //         const formattedAbilities = formatAllAbilities(abilities);
+  //         const formattedStats = formatAllStats(stats);
+  //         const formattedTypes = formatAllTypes(types);
+  //         const newPokemon = {
+  //           name,
+  //           height,
+  //           stats: formattedStats,
+  //           abilities: formattedAbilities,
+  //           types: formattedTypes,
+  //           weight,
+  //         };
+  //         updatePokemonData(newPokemon.name, newPokemon);
+  //       }
+  //     }
+  //   };
 
-    handleAddPokemon();
-  }, [isOpen]);
+  //   handleAddPokemon();
+  // }, [isOpen]);
+
+  // const cachedPokemonData = useMemo(() => {
+  //   const formattedPokemonName = name.toLowerCase();
+  //   console.log(pokemonData);
+  //   // return pokemonData[formattedPokemonName];
+  // }, [pokemonData]);
+
+  // useEffect(() => {
+  //   const handleAddPokemon = async () => {
+  //     const formattedPokemonName = name.toLowerCase();
+
+  //     if (!pokemonData.hasOwnProperty(formattedPokemonName) && isOpen) {
+  //       const fetchedPokemonData = await getPokemonByName(formattedPokemonName);
+
+  //       if (fetchedPokemonData != null) {
+  //         const { abilities, name, height, weight, stats, types } =
+  //           fetchedPokemonData;
+  //         const formattedAbilities = formatAllAbilities(abilities);
+  //         const formattedStats = formatAllStats(stats);
+  //         const formattedTypes = formatAllTypes(types);
+  //         // console.log("pokemon data: ", fetchedPokemonData);
+  //         const newPokemon = {
+  //           name,
+  //           height,
+  //           stats: formattedStats,
+  //           abilities: formattedAbilities,
+  //           types: formattedTypes,
+  //           weight,
+  //         };
+  //         updatePokemonData(newPokemon.name, newPokemon);
+  //       }
+  //     }
+  //   };
+
+  //   handleAddPokemon();
+  // }, [isOpen]);
 
   return (
     <PokemonDataProvider>
