@@ -1,10 +1,4 @@
-import {
-  IonButton,
-  IonCard,
-  IonImg,
-  IonCardTitle,
-  IonCardHeader,
-} from "@ionic/react";
+import { IonCard, IonImg, IonCardTitle, IonCardHeader } from "@ionic/react";
 import { useState } from "react";
 import { PokemonModal } from "../PokemonModal";
 interface PokemonCardProps {
