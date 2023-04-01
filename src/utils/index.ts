@@ -1,2 +1,9 @@
-export { getAllPokemon, getPokemonByName, getPokemonArt } from "./pokeApi";
-export { capitalizeFirstLetter } from "./utils";
+export {
+  getAllPokemon,
+  getPokemonByName,
+  getPokemonArt,
+  formatAllAbilities,
+  formatAllStats,
+  formatAllTypes,
+} from "./pokeApi";
+export { capitalizeFirstLetter, formatPokemonName } from "./utils";

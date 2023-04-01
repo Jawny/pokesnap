@@ -1,4 +1,10 @@
-import { Pokedex } from "pokeapi-js-wrapper";
+import {
+  Pokedex,
+  PokemonAbility,
+  PokemonStat,
+  PokemonType,
+} from "pokeapi-js-wrapper";
+import { formatPokemonName } from "./utils";
 
 const customOptions = {
   protocol: "https",
@@ -10,10 +16,6 @@ const customOptions = {
 };
 
 const P = new Pokedex(customOptions);
-
-const formatPokemonName = (pokemonName: string) => {
-  return pokemonName.replace(/[^0-9a-z]/gi, "").toLowerCase();
-};
 
 export const getAllPokemon = async (limit: number = 151) => {
   return await (
@@ -46,4 +48,47 @@ export const getPokemonArt = async (pokemonName: string) => {
     console.error(error);
     return null; // TODO: add proper error handling in the future
   }
+};
+
+export const formatAllAbilities = (abilities: PokemonAbility[]): string[] => {
+  const result = abilities.map((ability: PokemonAbility) => {
+    const {
+      ability: { name },
+    } = ability;
+
+    return name;
+  });
+
+  return result;
+};
+
+export type FormatedStats = {
+  baseStat: number;
+  effort: number;
+  statName: string;
+};
+
+export const formatAllStats = (stats: PokemonStat[]): FormatedStats[] => {
+  const result = stats.map((stat: PokemonStat) => {
+    const {
+      base_stat: baseStat,
+      effort,
+      stat: { name: statName },
+    } = stat;
+
+    return { baseStat, effort, statName };
+  });
+
+  return result;
+};
+
+export const formatAllTypes = (types: PokemonType[]): string[] => {
+  const result = types.map((type: PokemonType) => {
+    const {
+      type: { name },
+    } = type;
+    return name;
+  });
+
+  return result;
 };

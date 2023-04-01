@@ -1,10 +1,4 @@
-import {
-  IonButton,
-  IonCard,
-  IonImg,
-  IonCardTitle,
-  IonCardHeader,
-} from "@ionic/react";
+import { IonCard, IonImg, IonCardTitle, IonCardHeader } from "@ionic/react";
 import { useState } from "react";
 import { PokemonModal } from "../PokemonModal";
 interface PokemonCardProps {
@@ -34,8 +28,8 @@ const PokemonCard = ({ name, imageUrl }: PokemonCardProps) => {
       <PokemonModal
         isOpen={isOpen}
         onClose={handleCloseModal}
-        title={name}
-        content=""
+        name={name}
+        imageUrl={imageUrl}
       />
     </>
   );
