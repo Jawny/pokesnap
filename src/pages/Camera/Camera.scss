@@ -1,0 +1,10 @@
+.photo-class {
+  width: 50%;
+}
+.taken-photo {
+  @extend .photo-class;
+}
+
+.predicted-pokemon {
+  @extend .photo-class;
+}

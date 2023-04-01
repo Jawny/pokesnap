@@ -1,8 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import { IonButton, IonContent, IonImg, IonPage } from "@ionic/react";
+import {
+  IonButton,
+  IonContent,
+  IonGrid,
+  IonImg,
+  IonPage,
+  IonProgressBar,
+  IonRow,
+  IonTitle,
+} from "@ionic/react";
 import { handleInference } from "../../model";
 import { getPokemonArt, getPokemonByName } from "../../utils/pokeApi";
+import "./Camera.scss";
 
 function CameraComponent() {
   const [photo, setPhoto] = useState<string | null>(null);
@@ -48,30 +58,57 @@ function CameraComponent() {
   }, [photoRetake]);
 
   return (
-    <>
+    <IonPage>
       {photo ? (
-        <IonPage>
+        <>
           <IonContent>
-            <IonImg src={photo} alt="Captured Photo" />
-            <IonImg src={pokemonImage} alt="pokemon img" />
-            <IonButton disabled={loading} onClick={handlePhotoRetake}>
-              retake Photo
-            </IonButton>
-            <IonButton
-              disabled={loading}
-              onClick={() => handlePrediction(photo)}
-            >
-              Analyze Pokemon
-            </IonButton>
+            <IonGrid>
+              <IonRow className="ion-justify-content-center ion-margin">
+                <IonImg
+                  className="taken-photo"
+                  src={photo}
+                  alt="Captured Photo"
+                />
+              </IonRow>
+              {pokemonImage ? (
+                <>
+                  <IonRow className="ion-justify-content-center ion-margin">
+                    <IonImg
+                      className="predicted-pokemon"
+                      src={pokemonImage}
+                      alt="pokemon img"
+                    />
+                  </IonRow>
+                  <IonRow className="ion-justify-content-center ion-margin">
+                    <IonTitle className="ion-text-center">
+                      {pokemonPrediction}
+                    </IonTitle>
+                  </IonRow>
+                </>
+              ) : (
+                <></>
+              )}
+              <>
+                <IonRow className="ion-justify-content-center ion-margin">
+                  <IonButton disabled={loading} onClick={handlePhotoRetake}>
+                    retake Photo
+                  </IonButton>
+                  <IonButton
+                    disabled={loading}
+                    onClick={() => handlePrediction(photo)}
+                  >
+                    Analyze Pokemon
+                  </IonButton>
+                </IonRow>
+              </>
+            </IonGrid>
           </IonContent>
-          <>
-            {loading ? <p>Processing Photo...</p> : <p>{pokemonPrediction}</p>}
-          </>
-        </IonPage>
+          <>{loading ? <IonProgressBar type="indeterminate" /> : <></>}</>
+        </>
       ) : (
-        <p>Loading...</p>
+        <IonProgressBar type="indeterminate" />
       )}
-    </>
+    </IonPage>
   );
 }
 
