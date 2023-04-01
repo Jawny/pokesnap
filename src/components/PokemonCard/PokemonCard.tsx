@@ -25,7 +25,12 @@ const PokemonCard = ({ name, imageUrl }: PokemonCardProps) => {
           <IonCardTitle>{name}</IonCardTitle>
         </IonCardHeader>
       </IonCard>
-      <PokemonModal isOpen={isOpen} onClose={handleCloseModal} name={name} />
+      <PokemonModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        name={name}
+        imageUrl={imageUrl}
+      />
     </>
   );
 };

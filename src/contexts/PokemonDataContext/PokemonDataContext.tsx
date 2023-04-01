@@ -5,36 +5,22 @@ import {
   formatAllTypes,
   getPokemonByName,
 } from "../../utils";
-import { FormatedStats } from "../../utils/pokeApi";
-interface Pokemon {
-  name: string;
-  height: number;
-  stats: FormatedStats[];
-  abilities: string[];
-  types: string[];
-  weight: number;
-}
-
-interface IPokemonData {
-  [key: string]: Pokemon;
-}
-
-interface IPokemonDataContext {
-  pokemonData: IPokemonData;
-  updatePokemonData: (name: string, value: Pokemon) => void;
-  handleAddPokemon: (name: string) => void;
-}
+import {
+  IPokemon,
+  IPokemonData,
+  IPokemonDataContext,
+} from "./PokemonDataContextInterfaces";
 
 export const PokemonDataContext = createContext<IPokemonDataContext>({
   pokemonData: {},
   updatePokemonData: () => {},
-  handleAddPokemon: () => {},
+  handleAddPokemon: () => Promise<IPokemon | null>,
 });
 
 export const PokemonDataProvider = ({ children }: any) => {
   const [pokemonData, setPokemonData] = useState<IPokemonData>({});
 
-  const handleAddPokemon = async (name: string) => {
+  const handleAddPokemon = async (name: string): Promise<IPokemon | null> => {
     const formattedPokemonName = name.toLowerCase();
     const fetchedPokemonData = await getPokemonByName(formattedPokemonName);
 
@@ -53,10 +39,12 @@ export const PokemonDataProvider = ({ children }: any) => {
         weight,
       };
       updatePokemonData(newPokemon.name, newPokemon);
+      return newPokemon;
     }
+    return null;
   };
 
-  const updatePokemonData = (name: string, value: Pokemon) => {
+  const updatePokemonData = (name: string, value: IPokemon) => {
     setPokemonData((prevPokemonData) => ({
       ...prevPokemonData,
       [name]: value,
