@@ -16,8 +16,8 @@ import {
   IonText,
   IonCol,
 } from "@ionic/react";
-import { PokemonDataContext } from "../../contexts";
-import { IPokemon } from "../../contexts/PokemonDataContext/PokemonDataContextInterfaces";
+import { PokemonDataContext } from "../../providers";
+import { IPokemon } from "../../providers/PokemonDataProvider/PokemonDataProviderInterfaces";
 import "./PokemonModal.scss";
 interface PokemonModalProps {
   isOpen: boolean;

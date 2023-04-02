@@ -1,4 +1,11 @@
-import { Route, Router } from "react-router-dom";
+import { useContext } from "react";
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Router,
+  useHistory,
+} from "react-router-dom";
 import { createBrowserHistory } from "history";
 import {
   IonApp,
@@ -11,8 +18,8 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { book, camera, square } from "ionicons/icons";
-import { Pokedex, Camera, Tab3 } from "./pages";
-import { PokemonDataProvider } from "./contexts";
+import { Pokedex, Camera, Tab3, Login, SignUp } from "./pages";
+import { AuthProvider, AuthContext, PokemonDataProvider } from "./providers";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -34,46 +41,52 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 setupIonicReact();
-const history = createBrowserHistory() as any;
 
 const App: React.FC = () => {
+  const user = useContext(AuthContext);
+  console.log(user);
+
   return (
-    <PokemonDataProvider>
-      <IonApp>
-        <Router history={history}>
-          <IonTabs>
-            <IonRouterOutlet>
-              <Route exact path="/pokedex">
-                <Pokedex />
-              </Route>
-              <Route exact path="/camera">
-                <Camera />
-              </Route>
-              <Route path="/tab3">
-                <Tab3 />
-              </Route>
-              <Route exact path="/">
-                <Pokedex />
-              </Route>
-            </IonRouterOutlet>
-            <IonTabBar slot="bottom">
-              <IonTabButton tab="pokedex" href="/pokedex">
-                <IonIcon icon={book} />
-                <IonLabel>Pokedex</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="camera" href="/camera">
-                <IonIcon icon={camera} />
-                <IonLabel>Camera</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="tab3" href="/tab3">
-                <IonIcon icon={square} />
-                <IonLabel>Tab 3</IonLabel>
-              </IonTabButton>
-            </IonTabBar>
-          </IonTabs>
-        </Router>
-      </IonApp>
-    </PokemonDataProvider>
+    <AuthProvider>
+      <PokemonDataProvider>
+        <IonApp>
+          <BrowserRouter>
+            {user ? (
+              <IonTabs>
+                <IonRouterOutlet>
+                  <Route exact path="/pokedex">
+                    <Pokedex />
+                  </Route>
+                  <Route exact path="/camera" component={Camera} />
+                  <Route path="/tab3" component={Tab3} />
+                  <Redirect to="/pokedex" />
+                </IonRouterOutlet>
+                <IonTabBar slot="bottom">
+                  <IonTabButton tab="pokedex" href="/pokedex">
+                    <IonIcon icon={book} />
+                    <IonLabel>Pokedex</IonLabel>
+                  </IonTabButton>
+                  <IonTabButton tab="camera" href="/camera">
+                    <IonIcon icon={camera} />
+                    <IonLabel>Camera</IonLabel>
+                  </IonTabButton>
+                  <IonTabButton tab="tab3" href="/tab3">
+                    <IonIcon icon={square} />
+                    <IonLabel>Tab 3</IonLabel>
+                  </IonTabButton>
+                </IonTabBar>
+              </IonTabs>
+            ) : (
+              <>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={SignUp} />
+                <Redirect to="/login" />
+              </>
+            )}
+          </BrowserRouter>
+        </IonApp>
+      </PokemonDataProvider>
+    </AuthProvider>
   );
 };
 
