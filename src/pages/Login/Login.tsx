@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   IonButton,
   IonContent,
@@ -11,14 +11,27 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { useHistory } from "react-router-dom";
+import { auth } from "../../providers/FirebaseProviders/FirebaseSetup";
+import { AuthContext } from "../../providers";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user, setUser } = useContext(AuthContext);
   const history = useHistory();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Handle login logic here
+    try {
+      const userCredential = await auth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+      setUser(userCredential.user);
+      history.push("/pokedex");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSignUp = () => {
