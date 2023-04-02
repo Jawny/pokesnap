@@ -1,5 +1,6 @@
-import { Route, Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { useContext } from "react";
+import { Redirect, Route } from "react-router-dom";
+import { IonReactRouter } from "@ionic/react-router";
 import {
   IonApp,
   IonIcon,
@@ -10,9 +11,9 @@ import {
   IonTabs,
   setupIonicReact,
 } from "@ionic/react";
-import { book, camera, square } from "ionicons/icons";
-import { Pokedex, Camera, Tab3 } from "./pages";
-import { PokemonDataProvider } from "./contexts";
+import { book, camera, settings } from "ionicons/icons";
+import { Pokedex, Camera, Settings, Login, SignUp } from "./pages";
+import { AuthContext, PokemonDataProvider } from "./providers";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -34,29 +35,34 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 setupIonicReact();
-const history = createBrowserHistory() as any;
 
 const App: React.FC = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <PokemonDataProvider>
       <IonApp>
-        <Router history={history}>
+        <IonReactRouter>
           <IonTabs>
             <IonRouterOutlet>
               <Route exact path="/pokedex">
-                <Pokedex />
+                {user ? <Pokedex /> : <Redirect to="/login" />}
+              </Route>
+              <Route exact path="/login">
+                {user ? <Redirect to="/pokedex" /> : <Login />}
+              </Route>
+              <Route exact path="/signup">
+                {user ? <Redirect to="/pokedex" /> : <SignUp />}
               </Route>
               <Route exact path="/camera">
-                <Camera />
+                {user ? <Camera /> : <Redirect to="/login" />}
               </Route>
-              <Route path="/tab3">
-                <Tab3 />
+              <Route path="/settings">
+                {user ? <Settings /> : <Redirect to="/login" />}
               </Route>
-              <Route exact path="/">
-                <Pokedex />
-              </Route>
+              <Redirect to="/pokedex" />
             </IonRouterOutlet>
-            <IonTabBar slot="bottom">
+            <IonTabBar slot="bottom" hidden={user ? false : true}>
               <IonTabButton tab="pokedex" href="/pokedex">
                 <IonIcon icon={book} />
                 <IonLabel>Pokedex</IonLabel>
@@ -65,13 +71,13 @@ const App: React.FC = () => {
                 <IonIcon icon={camera} />
                 <IonLabel>Camera</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="tab3" href="/tab3">
-                <IonIcon icon={square} />
-                <IonLabel>Tab 3</IonLabel>
+              <IonTabButton tab="settings" href="/settings">
+                <IonIcon icon={settings} />
+                <IonLabel>Settings</IonLabel>
               </IonTabButton>
             </IonTabBar>
           </IonTabs>
-        </Router>
+        </IonReactRouter>
       </IonApp>
     </PokemonDataProvider>
   );

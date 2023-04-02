@@ -16,8 +16,8 @@ import {
   IonText,
   IonCol,
 } from "@ionic/react";
-import { PokemonDataContext } from "../../contexts";
-import { IPokemon } from "../../contexts/PokemonDataContext/PokemonDataContextInterfaces";
+import { PokemonDataContext } from "../../providers";
+import { IPokemon } from "../../providers/PokemonDataProvider/PokemonDataProviderInterfaces";
 import "./PokemonModal.scss";
 interface PokemonModalProps {
   isOpen: boolean;
@@ -99,12 +99,11 @@ const PokemonModal = ({
     };
 
     const result = stats.map((stat) => {
-      const { statName, effort, baseStat } = stat;
+      const { statName, baseStat } = stat;
       const baseStatValue = calculateStatValue(statName, baseStat);
-      console.log(effort, baseStat);
       return (
         <div className={`stat-bar-container`}>
-          <IonLabel className="stat-text">
+          <IonLabel className="stat-text" key={statName}>
             {getStatText(baseStat, statName)}
           </IonLabel>
           <IonProgressBar className={`${statName}-bar`} value={baseStatValue} />

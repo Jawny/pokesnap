@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import {
   IonButton,
@@ -20,6 +21,7 @@ function CameraComponent() {
   const [photoRetake, setPhotoRetake] = useState<boolean>(false);
   const [pokemonPrediction, setPokemonPrediction] = useState<string>("");
   const [pokemonImage, setPokemonImage] = useState<string>("");
+  const history = useHistory();
   const cameraLoaded = useRef(false);
 
   const handlePrediction = async (photo: string) => {
@@ -38,20 +40,31 @@ function CameraComponent() {
     setPhotoRetake(!photoRetake);
   };
 
-  const takePhoto = async () =>
-    await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
-    });
+  const takePhoto = async () => {
+    try {
+      return await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+      });
+    } catch (error: any) {
+      if (error.message === "User cancelled photos app") {
+        // Handle the case where the user cancelled the photo taking process
+        history.push("/pokedex");
+      } else {
+        // Handle other errors here
+        console.error(error);
+      }
+    }
+  };
 
   useEffect(() => {
     async function getPhoto() {
       if (!cameraLoaded.current) {
         cameraLoaded.current = true;
         const image = await takePhoto();
-        setPhoto(image.webPath ?? null);
+        setPhoto(image?.webPath ?? null);
       }
     }
     getPhoto();

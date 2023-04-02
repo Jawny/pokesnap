@@ -10,6 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 .env
+firebaseConfig.ts
 # macOS
 .DS_Store
 build/asset-manifest.json
