@@ -37,8 +37,7 @@ import "./theme/variables.css";
 setupIonicReact();
 
 const App: React.FC = () => {
-  // const { user } = useContext(AuthContext);
-  const user = true;
+  const { user } = useContext(AuthContext);
 
   return (
     <PokemonDataProvider>

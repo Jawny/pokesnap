@@ -19,6 +19,8 @@ import {
 import { PokemonDataContext } from "../../providers";
 import { IPokemon } from "../../providers/PokemonDataProvider/PokemonDataProviderInterfaces";
 import "./PokemonModal.scss";
+import { fetchImagesFromStorage } from "../../utils";
+import { IPhoto } from "../../utils/utils";
 interface PokemonModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -42,6 +44,7 @@ const PokemonModal = ({
   imageUrl,
 }: PokemonModalProps) => {
   const { handleAddPokemon, pokemonData } = useContext(PokemonDataContext);
+  const [userPhotos, setUserPhotos] = useState<IPhoto[]>([]);
   const [currPokemon, setCurrPokemon] = useState<IPokemon>(
     currPokemonEmptyState
   );
@@ -56,6 +59,8 @@ const PokemonModal = ({
       } else if (pokemonData[name.toLowerCase()]) {
         setCurrPokemon(pokemonData[name.toLowerCase()]);
       }
+      const fetchedUserPhotos = await fetchImagesFromStorage(name);
+      setUserPhotos(fetchedUserPhotos);
     })();
   }, [isOpen]);
 
@@ -145,6 +150,14 @@ const PokemonModal = ({
     </IonGrid>
   );
 
+  const populateUserPhotos = () => (
+    <>
+      {userPhotos.map((image) => (
+        <IonImg className="pokemon-image" key={image.url} src={image.url} />
+      ))}
+    </>
+  );
+
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onClose}>
       <IonHeader>
@@ -177,6 +190,12 @@ const PokemonModal = ({
           </IonRow>
           <IonRow className="ion-justify-content-center">
             {populateAbilities()}
+          </IonRow>
+          <IonRow className="ion-justify-content-center ion-margin">
+            <IonText className="title-text">Your Pokemon</IonText>
+          </IonRow>
+          <IonRow className="ion-justify-content-center ion-margin">
+            {populateUserPhotos()}
           </IonRow>
         </IonGrid>
       </IonContent>

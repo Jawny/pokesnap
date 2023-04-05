@@ -4,7 +4,6 @@ import {
   PokemonStat,
   PokemonType,
 } from "pokeapi-js-wrapper";
-import { formatPokemonName } from "./utils";
 
 const customOptions = {
   protocol: "https",
@@ -25,7 +24,7 @@ export const getAllPokemon = async (limit: number = 151) => {
 
 export const getPokemonByName = async (pokemonName: string) => {
   try {
-    return await P.getPokemonByName(formatPokemonName(pokemonName));
+    return await P.getPokemonByName(pokemonName.toLowerCase());
   } catch (error) {
     console.error(error);
     return null; // TODO: add proper error handling in the future
@@ -34,7 +33,7 @@ export const getPokemonByName = async (pokemonName: string) => {
 
 export const getPokemonArt = async (pokemonName: string) => {
   try {
-    const pokemon = await P.getPokemonByName(formatPokemonName(pokemonName));
+    const pokemon = await P.getPokemonByName(pokemonName.toLowerCase());
     const {
       sprites: {
         other: {

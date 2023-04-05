@@ -12,7 +12,7 @@ import {
   IonTitle,
 } from "@ionic/react";
 import { handleInference } from "../../model";
-import { getPokemonArt, getPokemonByName } from "../../utils/pokeApi";
+import { getPokemonArt, getPokemonByName, handleSavePhoto } from "../../utils";
 import "./Camera.scss";
 
 function CameraComponent() {
@@ -34,6 +34,10 @@ function CameraComponent() {
       const pokeImage = await getPokemonArt(pokemonPrediction);
       setPokemonImage(pokeImage ?? "");
       console.log("pokeapi: ", res);
+
+      const originalImageData = await fetch(photo);
+      const blob = await originalImageData.blob();
+      await handleSavePhoto(blob, pokemonPrediction);
     }
     // TODO: Create toast message to have user retry
     setLoading(false);

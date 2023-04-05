@@ -6,4 +6,8 @@ export {
   formatAllStats,
   formatAllTypes,
 } from "./pokeApi";
-export { capitalizeFirstLetter, formatPokemonName } from "./utils";
+export {
+  capitalizeFirstLetter,
+  handleSavePhoto,
+  fetchImagesFromStorage,
+} from "./utils";
