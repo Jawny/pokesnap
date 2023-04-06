@@ -155,7 +155,7 @@ const PokemonModal = ({
         {`Height: ${currPokemon.height / 100} m`}
       </IonText>
       <IonText className="ion-padding-start ion-padding-end">
-        {`Weight: ${currPokemon.weight} kg`}
+        {`Weight: ${currPokemon.weight / 10} kg`}
       </IonText>
     </>
   );
