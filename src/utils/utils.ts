@@ -96,12 +96,17 @@ export const deletePhotoFromStorage = async (
     if (userId == null) {
       throw new Error("user id is null.");
     }
-    const imageRef = storage
-      .ref()
-      .child(`${userId}/${pokemonName}/${fileName}`);
-    await imageRef.delete();
+    const folderRef = storage.ref().child(`${userId}/${pokemonName}`);
+    const folderSnapshot = await folderRef.listAll();
 
-    console.log(`Image ${fileName} deleted successfully`);
+    const fileRef = folderSnapshot.items.find((item) => item.name === fileName);
+
+    if (!fileRef) {
+      console.log(`File ${fileName} not found in folder ${pokemonName}`);
+      return;
+    }
+
+    await fileRef.delete();
   } catch (error) {
     console.error(error);
   }
