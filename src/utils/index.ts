@@ -10,4 +10,5 @@ export {
   capitalizeFirstLetter,
   handleSavePhoto,
   fetchImagesFromStorage,
+  deletePhotoFromStorage,
 } from "./utils";

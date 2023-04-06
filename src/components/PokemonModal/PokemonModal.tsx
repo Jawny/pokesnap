@@ -17,9 +17,10 @@ import {
   IonCol,
 } from "@ionic/react";
 import { PokemonDataContext } from "../../providers";
+import { DeleteModal } from "../DeleteModal";
 import { IPokemon } from "../../providers/PokemonDataProvider/PokemonDataProviderInterfaces";
 import "./PokemonModal.scss";
-import { fetchImagesFromStorage } from "../../utils";
+import { fetchImagesFromStorage, deletePhotoFromStorage } from "../../utils";
 import { IPhoto } from "../../utils/utils";
 interface PokemonModalProps {
   isOpen: boolean;
@@ -48,6 +49,25 @@ const PokemonModal = ({
   const [currPokemon, setCurrPokemon] = useState<IPokemon>(
     currPokemonEmptyState
   );
+  const [selectedPhoto, setSelectedPhoto] = useState<string>("");
+  const [selectedPhotoFileName, setSelectedPhotoFileName] =
+    useState<string>("");
+
+  const handleImageClick = (photo: string, fileName: string) => {
+    setSelectedPhoto(photo);
+    setSelectedPhotoFileName(fileName);
+  };
+
+  const handleModalClose = () => {
+    setSelectedPhoto("");
+  };
+
+  const handleDeleteClick = async () => {
+    if (!!!selectedPhoto || !!!selectedPhotoFileName) return;
+    // delete photo logic
+    await deletePhotoFromStorage(name, selectedPhotoFileName);
+    setSelectedPhoto("");
+  };
 
   useEffect(() => {
     (async () => {
@@ -62,7 +82,7 @@ const PokemonModal = ({
       const fetchedUserPhotos = await fetchImagesFromStorage(name);
       setUserPhotos(fetchedUserPhotos);
     })();
-  }, [isOpen]);
+  }, [isOpen, userPhotos]);
 
   const populateStats = () => {
     const { stats } = currPokemon;
@@ -107,7 +127,7 @@ const PokemonModal = ({
       const { statName, baseStat } = stat;
       const baseStatValue = calculateStatValue(statName, baseStat);
       return (
-        <div className={`stat-bar-container`}>
+        <div className={`stat-bar-container`} key={statName}>
           <IonLabel className="stat-text" key={statName}>
             {getStatText(baseStat, statName)}
           </IonLabel>
@@ -122,7 +142,9 @@ const PokemonModal = ({
   const populateTypes = () => (
     <>
       {currPokemon.types.map((type) => (
-        <IonChip className={`${type}-type`}>{type}</IonChip>
+        <IonChip className={`${type}-type`} key={type}>
+          {type}
+        </IonChip>
       ))}
     </>
   );
@@ -153,8 +175,19 @@ const PokemonModal = ({
   const populateUserPhotos = () => (
     <>
       {userPhotos.map((image) => (
-        <IonImg className="pokemon-image" key={image.url} src={image.url} />
+        <IonImg
+          className="pokemon-image"
+          key={image.url}
+          src={image.url}
+          onClick={() => handleImageClick(image.url, image.name)}
+        />
       ))}
+      <DeleteModal
+        isOpen={!!selectedPhoto}
+        imageUrl={selectedPhoto}
+        onClose={handleModalClose}
+        onDelete={handleDeleteClick}
+      />
     </>
   );
 

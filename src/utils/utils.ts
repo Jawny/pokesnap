@@ -85,3 +85,24 @@ export const fetchImagesFromStorage = async (
     return [];
   }
 };
+
+export const deletePhotoFromStorage = async (
+  pokemonName: string,
+  fileName: string
+) => {
+  try {
+    const userId = auth.currentUser?.uid;
+
+    if (userId == null) {
+      throw new Error("user id is null.");
+    }
+    const imageRef = storage
+      .ref()
+      .child(`${userId}/${pokemonName}/${fileName}`);
+    await imageRef.delete();
+
+    console.log(`Image ${fileName} deleted successfully`);
+  } catch (error) {
+    console.error(error);
+  }
+};
