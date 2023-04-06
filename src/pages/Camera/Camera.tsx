@@ -12,14 +12,14 @@ import {
   IonTitle,
 } from "@ionic/react";
 import { handleInference } from "../../model";
-import { getPokemonArt, getPokemonByName } from "../../utils/pokeApi";
+import { getPokemonArt, getPokemonByName, handleSavePhoto } from "../../utils";
 import "./Camera.scss";
 
 function CameraComponent() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [photoRetake, setPhotoRetake] = useState<boolean>(false);
-  const [pokemonPrediction, setPokemonPrediction] = useState<string>("");
+  const [pokemonPrediction, setPokemonPrediction] = useState<string | null>("");
   const [pokemonImage, setPokemonImage] = useState<string>("");
   const history = useHistory();
   const cameraLoaded = useRef(false);
@@ -27,11 +27,19 @@ function CameraComponent() {
   const handlePrediction = async (photo: string) => {
     setLoading(true);
     const pokemonPrediction = await handleInference(photo);
-    setPokemonPrediction(pokemonPrediction);
-    const res = await getPokemonByName(pokemonPrediction);
-    const pokeImage = await getPokemonArt(pokemonPrediction);
-    setPokemonImage(pokeImage ?? "");
-    console.log("pokeapi: ", res);
+
+    if (pokemonPrediction != null) {
+      setPokemonPrediction(pokemonPrediction);
+      const res = await getPokemonByName(pokemonPrediction);
+      const pokeImage = await getPokemonArt(pokemonPrediction);
+      setPokemonImage(pokeImage ?? "");
+      console.log("pokeapi: ", res);
+
+      const originalImageData = await fetch(photo);
+      const blob = await originalImageData.blob();
+      await handleSavePhoto(blob, pokemonPrediction);
+    }
+    // TODO: Create toast message to have user retry
     setLoading(false);
   };
 
