@@ -82,6 +82,7 @@ const PokemonModal = ({
       const fetchedUserPhotos = await fetchImagesFromStorage(name);
       setUserPhotos(fetchedUserPhotos);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, userPhotos]);
 
   const populateStats = () => {

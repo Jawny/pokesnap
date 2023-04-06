@@ -76,6 +76,7 @@ function CameraComponent() {
       }
     }
     getPhoto();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photoRetake]);
 
   return (

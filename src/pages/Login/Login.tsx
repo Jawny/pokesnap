@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   IonButton,
   IonContent,
@@ -17,7 +17,7 @@ import { AuthContext } from "../../providers";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const history = useHistory();
 
   const handleLogin = async () => {
