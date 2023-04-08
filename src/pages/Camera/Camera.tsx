@@ -12,7 +12,12 @@ import {
   IonTitle,
 } from "@ionic/react";
 import { handleInference } from "../../model";
-import { getPokemonArt, getPokemonByName, handleSavePhoto } from "../../utils";
+import {
+  getPokemonArt,
+  getPokemonByName,
+  handleSavePhoto,
+  updateUserSeenPokemonDb,
+} from "../../utils";
 import "./Camera.scss";
 
 function CameraComponent() {
@@ -38,6 +43,7 @@ function CameraComponent() {
       const originalImageData = await fetch(photo);
       const blob = await originalImageData.blob();
       await handleSavePhoto(blob, pokemonPrediction);
+      await updateUserSeenPokemonDb(pokemonPrediction);
     }
     // TODO: Create toast message to have user retry
     setLoading(false);
@@ -76,6 +82,7 @@ function CameraComponent() {
       }
     }
     getPhoto();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photoRetake]);
 
   return (

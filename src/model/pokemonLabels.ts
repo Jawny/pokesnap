@@ -84,7 +84,7 @@ export const POKEMON_LABELS = [
   "Mew",
   "Mewtwo",
   "Moltres",
-  "MrMime",
+  "Mr-Mime",
   "Muk",
   "Nidoking",
   "Nidoqueen",

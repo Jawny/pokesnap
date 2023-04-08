@@ -1,4 +1,9 @@
-import { auth, storage } from "../providers/FirebaseProviders/FirebaseSetup";
+import {
+  auth,
+  storage,
+  database,
+} from "../providers/FirebaseProviders/FirebaseSetup";
+import { POKEMON_LABELS } from "../model/pokemonLabels";
 
 export const capitalizeFirstLetter = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -62,6 +67,8 @@ export const fetchImagesFromStorage = async (
       throw new Error("user id is null.");
     }
 
+    console.log(pokemonName);
+
     // Create a storage reference for the user's UID folder
     const userFolderRef = storage.ref().child(userId);
 
@@ -96,12 +103,86 @@ export const deletePhotoFromStorage = async (
     if (userId == null) {
       throw new Error("user id is null.");
     }
-    const imageRef = storage
-      .ref()
-      .child(`${userId}/${pokemonName}/${fileName}`);
-    await imageRef.delete();
+    const folderRef = storage.ref().child(`${userId}/${pokemonName}`);
+    const folderSnapshot = await folderRef.listAll();
 
-    console.log(`Image ${fileName} deleted successfully`);
+    const fileRef = folderSnapshot.items.find((item) => item.name === fileName);
+
+    if (!fileRef) {
+      console.log(`File ${fileName} not found in folder ${pokemonName}`);
+      return;
+    }
+
+    await fileRef.delete();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const setupUserDb = async () => {
+  try {
+    const userId = auth.currentUser?.uid; // Get the current user's ID
+
+    if (userId == null) {
+      throw new Error("user id is null.");
+    }
+
+    const snapshot = await database.ref(`users/${userId}`).once("value");
+
+    if (!snapshot.exists()) {
+      const initialSetupValues = POKEMON_LABELS.reduce(
+        (acc, key) => ({ ...acc, [key]: false }),
+        {}
+      );
+      await database.ref(`users/${userId}/pokemon`).update(initialSetupValues);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+interface IUserPokemonData {
+  [key: string]: boolean;
+}
+
+export const fetchAllSeenPokemon = async (): Promise<string[]> => {
+  try {
+    const userId = auth.currentUser?.uid;
+
+    if (userId == null) {
+      throw new Error("user id is null.");
+    }
+
+    const dbRef = database.ref(`users/${userId}/pokemon`);
+    const snapshot = await dbRef.once("value");
+    const data: IUserPokemonData = snapshot.val();
+
+    // filter for seen pokemon
+    const seenPokemon: string[] = [];
+
+    for (const key in data) {
+      if (data[key] === true) {
+        seenPokemon.push(key);
+      }
+    }
+
+    return seenPokemon;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+export const updateUserSeenPokemonDb = async (pokemonName: string) => {
+  try {
+    const userId = auth.currentUser?.uid;
+
+    if (userId == null) {
+      throw new Error("user id is null.");
+    }
+
+    const dbRef = database.ref(`users/${userId}/pokemon/${pokemonName}`);
+    await dbRef.set(true);
   } catch (error) {
     console.error(error);
   }

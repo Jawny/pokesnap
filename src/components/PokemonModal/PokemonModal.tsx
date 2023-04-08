@@ -76,12 +76,13 @@ const PokemonModal = ({
         if (currPokemon != null) {
           setCurrPokemon(currPokemon);
         }
+        const fetchedUserPhotos = await fetchImagesFromStorage(name);
+        setUserPhotos(fetchedUserPhotos);
       } else if (pokemonData[name.toLowerCase()]) {
         setCurrPokemon(pokemonData[name.toLowerCase()]);
       }
-      const fetchedUserPhotos = await fetchImagesFromStorage(name);
-      setUserPhotos(fetchedUserPhotos);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, userPhotos]);
 
   const populateStats = () => {
@@ -155,7 +156,7 @@ const PokemonModal = ({
         {`Height: ${currPokemon.height / 100} m`}
       </IonText>
       <IonText className="ion-padding-start ion-padding-end">
-        {`Weight: ${currPokemon.weight} kg`}
+        {`Weight: ${currPokemon.weight / 10} kg`}
       </IonText>
     </>
   );

@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import { auth } from "./FirebaseSetup";
-import React from "react";
+import { setupUserDb } from "../../utils";
 
 interface IAuthContext {
   user: firebase.User | null;
@@ -17,9 +17,16 @@ export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<firebase.User | null>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      await setupUserDb();
+
       setUser(firebaseUser);
     });
+
+    // (async () => {
+    //   console.log("setting up user db");
+    //   await setupUserDb();
+    // })();
 
     return unsubscribe;
   }, []);
