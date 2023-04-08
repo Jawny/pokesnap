@@ -76,11 +76,11 @@ const PokemonModal = ({
         if (currPokemon != null) {
           setCurrPokemon(currPokemon);
         }
+        const fetchedUserPhotos = await fetchImagesFromStorage(name);
+        setUserPhotos(fetchedUserPhotos);
       } else if (pokemonData[name.toLowerCase()]) {
         setCurrPokemon(pokemonData[name.toLowerCase()]);
       }
-      const fetchedUserPhotos = await fetchImagesFromStorage(name);
-      setUserPhotos(fetchedUserPhotos);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, userPhotos]);

@@ -11,4 +11,7 @@ export {
   handleSavePhoto,
   fetchImagesFromStorage,
   deletePhotoFromStorage,
+  setupUserDb,
+  fetchAllSeenPokemon,
+  updateUserSeenPokemonDb,
 } from "./utils";
