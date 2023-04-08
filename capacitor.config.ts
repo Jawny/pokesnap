@@ -1,7 +1,7 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "io.ionic.starter",
+  appId: "app.vercel.pokesnap",
   appName: "pokedex",
   webDir: "build",
   bundledWebRuntime: false,
