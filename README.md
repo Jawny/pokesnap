@@ -15,6 +15,8 @@ As an avid Pokemon fan, I embarked on the journey of building my own digital Pok
 To address these challenges and make my dataset more robust without manually downloading thousands of additional images, I employed data processing techniques. I developed a simple Python script that applied various transformations to the images, including greyscaling, rotating, and flipping. By augmenting the dataset with these modified versions, I was able to expand it to a substantial 21000 images.
 
 Next, instead of building a neural network from scratch, I opted for transfer learning. This approach allows leveraging the knowledge captured by pre-trained models in solving similar tasks. By fine-tuning the VGG19 model and modifying the output layer to match the number of Pokemon classes I wanted to classify, I adapted it to recognize Pokemon species.
+
+Check out the code [here](https://github.com/Jawny/pokemon-cnn)
 ## Mobile Development
 When developing Pokesnap I chose to use the Ionic framework and React to provide a cross platform experience for both mobile and web users. One of the key features I wanted was to be able to classify Pokemon without an internet connection. I used Tensorflow.js to load the CNN model directly on the user's device so the app can run predictions locally, eliminating the need for continuous network connectivity and ensuring smooth functionality regardless of the user's location.
 
